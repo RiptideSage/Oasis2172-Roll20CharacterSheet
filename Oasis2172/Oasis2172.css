@@ -1,0 +1,388 @@
+/*----------------- Main Layout ------------------*/
+
+/* A CSS Grid example using "grid-template-areas"
+  https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-areas
+*/
+main {
+    display: grid;
+   /* width: 800px;
+    height: 900px; */
+    grid-gap: 4px;
+    grid-template-columns: 240px 300px 400px;
+    grid-template-rows: repeat(6, 1fr);
+    grid-template-areas:"title      status      combat"
+                        "field      status      combat"
+                        "field      status      combat"
+                        "universal  status      combat"
+                        "social     inventory   mods"
+                        "social     inventory   mods";
+}
+
+
+/*---------------- Smaller grid elements -----------------*/
+div.sheet-table {
+
+}
+
+div.sheet-table__skill_row {
+    display: grid;
+    grid-template-columns: 1fr .5fr .5fr;
+}
+
+div.sheet-table__ac_row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+div.sheet-table__hp_row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+div.sheet-table__medkit_row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+div.sheet-table__stun_row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+div.sheet-table__adr_row {
+    display: grid;
+    grid-template-columns: .5fr 1fr 1fr;
+}
+
+div.sheet-table__misc_tracker_row {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+}
+
+div.sheet-table__attack_extras_row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+div.sheet-table__attack_row {
+    display: grid;
+    grid-template-columns: 3fr .5fr 1fr .5fr;
+}
+
+div.sheet-table__adrenaline_text_row{
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+/*----------------- GENERAL CSS ------------------*/
+
+section {
+    padding: 5px;
+    border-style: solid;
+}
+
+/* CSS Flexbox styling, used for adjusting how content inside section behaves */
+.f-col {
+    display: flex;
+    flex-direction: column;
+}
+.f-row {
+    display: flex;
+    flex-direction: row;
+}
+.wrap {
+    display: flex;
+    flex-wrap: wrap;
+}
+.nowrap {
+    display: flex;
+    flex-wrap: nowrap;
+}
+.f-center {
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+
+/*----------------- Text & Input styling -----------------*/
+
+/* these are for overwriting default CSS that comes from Roll20 */
+
+.charsheet * {
+    font-family: "Arial";
+}
+
+.charsheet h3{
+    text-align: center;
+}
+.charsheet label{
+    margin: 3px;
+    padding: 3px 0 0 0;
+}
+
+.charsheet input[type="text"], input[type="number"]{
+    margin: 2px 4px;
+}
+
+.charsheet textarea {
+    width: 95%;
+    height: 85%;
+}
+
+.charsheet input[type="number"].sheet-long-number {
+    width: 75px;
+}
+
+.charsheet input[type="number"]:disabled {
+    background: #dddddd;
+}
+
+.charsheet .sheet-hp_box input[type="number"]{
+    background: #c6ecc6;
+}
+
+.charsheet .sheet-incoming_damage input[type="number"]{
+    background: #ffb3b3;
+}
+
+.charsheet .sheet-stun_input input[type="number"]{
+    background: #ffe680;
+}
+
+.charsheet .sheet-incoming_stun input[type="number"]{
+    background: #ffb84d;
+}
+
+.charsheet .sheet-table__adrenaline_text_row *{
+    font-weight: normal;
+    /* Base size of text is 1.2*/
+    font-size: 1em
+}
+
+
+/*------------- Combat skill CSS wizardy -------------*/
+
+/* By default, hides all archetypes*/
+.charsheet .sheet-combat-skill-unchosen,
+.charsheet .sheet-pistols,
+.charsheet .sheet-smgs,
+.charsheet .sheet-shotguns,
+.charsheet .sheet-assault-rifles,
+.charsheet .sheet-dmrs,
+.charsheet .sheet-lmgs,
+.charsheet .sheet-light-kinetic-weapons,
+.charsheet .sheet-heavy-kinetic-weapons,
+.charsheet .sheet-flamethrowers,
+.charsheet .sheet-charge-rifles,
+.charsheet .sheet-cryo-syphons,
+.charsheet .sheet-gauss-rifles,
+.charsheet .sheet-scourges
+{
+    display: none;
+}
+
+/* show the selected archetype */
+.charsheet .sheet-combat-skill-toggle[value=""] ~ div.sheet-combat-skill-unchosen,
+.charsheet .sheet-combat-skill-toggle[value="Pistols"] ~ div.sheet-pistols,
+.charsheet .sheet-combat-skill-toggle[value="SMGs"] ~ div.sheet-smgs,
+.charsheet .sheet-combat-skill-toggle[value="Shotguns"] ~ div.sheet-shotguns,
+.charsheet .sheet-combat-skill-toggle[value="Assault Rifles"] ~ div.sheet-assault-rifles,
+.charsheet .sheet-combat-skill-toggle[value="DMRs"] ~ div.sheet-dmrs,
+.charsheet .sheet-combat-skill-toggle[value="LMGs"] ~ div.sheet-lmgs,
+.charsheet .sheet-combat-skill-toggle[value="Light Kinetic Weapons"] ~ div.sheet-light-kinetic-weapons,
+.charsheet .sheet-combat-skill-toggle[value="Heavy Kinetic Weapons"] ~ div.sheet-heavy-kinetic-weapons,
+.charsheet .sheet-combat-skill-toggle[value="Flamethrowers"] ~ div.sheet-flamethrowers,
+.charsheet .sheet-combat-skill-toggle[value="Charge Rifles"] ~ div.sheet-charge-rifles,
+.charsheet .sheet-combat-skill-toggle[value="Cryo-Syphons"] ~ div.sheet-cryo-syphons,
+.charsheet .sheet-combat-skill-toggle[value="Gauss Rifles"] ~ div.sheet-gauss-rifles,
+.charsheet .sheet-combat-skill-toggle[value="Scourges"] ~ div.sheet-scourges
+{
+    display: block;
+}
+
+/*------------- Section-specific CSS -------------*/
+
+.title {
+    grid-area: title;
+    background-color: olive;
+    flex-direction: column;
+}
+
+.field {
+    grid-area: field;
+    background-color: darkseagreen;
+}
+
+.universal {
+    grid-area: universal;
+    background-color: lightsteelblue;
+}
+
+.social {
+    grid-area: social;
+    background-color: lightyellow;
+}
+
+.status {
+    grid-area: status;
+    background-color: lightblue;
+}
+
+.inventory {
+    grid-area: inventory;
+    background-color: lightgray;
+}
+
+.combat {
+    grid-area: combat;
+    background-color: indianred;
+}
+
+.mods {
+    grid-area: mods;
+    background-color: #d9b3ff;
+}
+
+
+
+/*
+
+.power .repcontainer[data-groupname="repeating_power"]{
+    padding-bottom: 0.2em;
+}
+
+.power .repcontainer[data-groupname="repeating_power"] .repitem{
+    margin: 4px 0px;
+}
+
+ */
+
+/*------------------------------------*\
+  #ROLL TEMPLATES
+\*------------------------------------*/
+
+/*  Base roll template */
+
+.sheet-rolltemplate-rolls {
+    font-family: "Arial";
+}
+.sheet-rolltemplate-rolls .sheet-container {
+    border: 3px solid black;
+    border-radius: 3px;
+}
+.sheet-rolltemplate-rolls .sheet-header {
+    background-color: var(--header-bg-color, #a83521);
+    color: var(--header-text-color, #FFF);
+    text-align: left;
+    text-transform: capitalize;
+    padding: 5px;
+    border-bottom: 2px solid black;
+}
+.sheet-rolltemplate-rolls .sheet-title,
+.sheet-rolltemplate-rolls .sheet-name {
+    font-size: 1.4em;
+    font-weight: bold;
+}
+.sheet-rolltemplate-rolls .sheet-subtitle {
+    font-size: 1em;
+}
+.sheet-rolltemplate-rolls .sheet-container {
+    --header-bg-color: #a83521;
+    --header-text-color: #FFF;
+}
+
+.sheet-rolltemplate-rolls .sheet-content {
+    display: grid;
+    background: #FFF;
+    grid-template-columns: auto auto;
+    line-height: 1.4em;
+}
+.sheet-rolltemplate-rolls .sheet-content > div {
+    padding: 5px;
+}
+.sheet-rolltemplate-rolls .sheet-content .sheet-key {
+    font-weight: bold;
+    padding-right: 10px;
+    text-align: right;
+}
+.sheet-rolltemplate-rolls .sheet-content :nth-child(4n+3),
+.sheet-rolltemplate-rolls .sheet-content :nth-child(4n) {
+    background: #EEE;
+}
+
+.sheet-rolltemplate-rolls .inlinerollresult.fullcrit {
+    border: 2px solid #3FB315;
+}
+
+.sheet-rolltemplate-rolls .inlinerollresult.fullfail {
+    border: 2px solid #B31515;
+}
+
+.sheet-rolltemplate-rolls .inlinerollresult.importantroll {
+    border: none;
+    /*border: 2px solid #4A57ED; */
+}
+
+/*  Attack  roll template */
+
+.sheet-rolltemplate-damage-rolls {
+    font-family: "Arial";
+}
+.sheet-rolltemplate-damage-rolls .sheet-container {
+    border: 3px solid black;
+    border-radius: 3px;
+}
+.sheet-rolltemplate-damage-rolls .sheet-header {
+    background-color: var(--header-bg-color, #a83521);
+    color: var(--header-text-color, #FFF);
+    text-align: left;
+    text-transform: capitalize;
+    padding: 5px;
+    border-bottom: 2px solid black;
+}
+.sheet-rolltemplate-damage-rolls .sheet-title,
+.sheet-rolltemplate-damage-rolls .sheet-name {
+    font-size: 1.4em;
+    font-weight: bold;
+}
+.sheet-rolltemplate-damage-rolls .sheet-subtitle {
+    font-size: 1em;
+}
+.sheet-rolltemplate-damage-rolls .sheet-container {
+    --header-bg-color: #a83521;
+    --header-text-color: #FFF;
+}
+
+.sheet-rolltemplate-damage-rolls .sheet-content {
+    display: grid;
+    background: #FFF;
+    grid-template-columns: auto auto;
+    line-height: 1.4em;
+}
+.sheet-rolltemplate-damage-rolls .sheet-content > div {
+    padding: 5px;
+}
+.sheet-rolltemplate-damage-rolls .sheet-content .sheet-key {
+    font-weight: bold;
+    padding-right: 10px;
+    text-align: right;
+}
+.sheet-rolltemplate-damage-rolls .sheet-content :nth-child(4n+3),
+.sheet-rolltemplate-damage-rolls .sheet-content :nth-child(4n) {
+    background: #EEE;
+}
+
+.sheet-rolltemplate-damage-rolls .inlinerollresult.fullcrit {
+    border: none;
+}
+
+.sheet-rolltemplate-damage-rolls .inlinerollresult.fullfail {
+    border: none;
+}
+
+.sheet-rolltemplate-damage-rolls .inlinerollresult.importantroll {
+    border: none;
+}
+

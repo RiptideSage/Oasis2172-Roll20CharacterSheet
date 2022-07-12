@@ -1,0 +1,1400 @@
+<!--suppress HtmlFormInputWithoutLabel -->
+<main>
+
+    <!-- Constants / hidden data -->
+    <input type="hidden" disabled="true" name="attr_scalar_constant" value="1.200102719578103"/>
+    <input type="hidden" disabled="true" name="attr_level_scalar" value="(@{scalar_constant}**(@{level}-1))"/>
+
+    <input type="hidden" disabled="true" name="attr_base_evasion" value="10"/>
+
+
+    <!--
+    Damage types
+
+    Due to precise balancing of the damage tables there is an uneven step-up in the middle of the die roll for types II, V, VII, and XI
+
+    I       : +4 : 20,24,28,32,36,40                    == /roll 4*(1d6)+16
+    II      : +2 : 24,28,32,34,38,42                    == /roll 4*(1d3)+10*(1d2)+10
+    III     : +0 : 26,30,34,38,42,46                    == /roll 4*(1d6)+22
+    IV      : +4 : 16,20,24,28,32,36,40,44              == /roll 4*(1d8)+12
+    V       : +2 : 20,24,28,32,34,38,42,46              == /roll 4*(1d4)+10*(1d2)+6
+    VI      : +0 : 22,26,30,34,38,42,46,50              == /roll 4*(1d8)+18
+    VII     : +4 : 12,16,20,24,28,32,36,40,44,48        == /roll 4*(1d10)+8
+    VIII    : +2 : 16,20,24,28,32,34,38,42,46,50        == /roll 4*(1d5)+10*(1d2)+2
+    IX      : +0 : 18,22,26,30,34,38,42,46,50,54        == /roll 4*(1d10)+14
+    X       : +4 : 8,12,16,20,24,28,32,36,40,44,48,52   == /roll 4*(1d12)+4
+    XI      : +2 : 12,16,20,24,28,32,34,38,42,46,50,54  == /roll 4*(1d6)+10*(1d2)-2
+    XII     : +0 : 14,18,22,26,30,34,38,42,46,50,54,58  == /roll 4*(1d12)+10
+
+    Critical failure notation like
+    `/roll 1d6cf1cs6`
+    Appears to work on the die roll itself, not the result.
+    This leads to odd rendering behavior for the uneven step damages as they roll multiple dice.
+
+    -->
+
+    <!-- Actual sheet -->
+    <section class="title f-center">
+        <h1>Oasis 2172</h1>
+        <span>Beta Test 5 Character Sheet</span>
+        <label>Name</label>
+        <input type="text" name="attr_character_name"/>
+        <label>Level</label>
+        <input type="number" name="attr_level" value="1" min="1"/>
+    </section>
+
+
+    <section class="field">
+        <label>Field Skills</label>
+        <div class="sheet-table">
+            <div class="sheet-table__skill_row">
+                <div class="sheet-table__cell">Name</div>
+                <div class="sheet-table__cell">Modifier</div>
+                <div class="sheet-table__cell">Roll</div>
+            </div>
+            <div class="sheet-table__skill_row">
+                <div class="sheet-table__cell"><label>Diversion</label></div>
+                <div class="sheet-table__cell"><input type="number" name="attr_diversion" value="0"></div>
+                <div class="sheet-table__cell"><button type="roll" value="&{template:rolls} {{title=Diversion}} {{subtitle=@{character_name} }} {{roll= [[d20 + @{level}[level] + @{diversion}[diversion] ]]}}"> </button></div>
+            </div>
+            <div class="sheet-table__skill_row">
+                <div class="sheet-table__cell"><label>Drones</label></div>
+                <div class="sheet-table__cell"><input type="number" name="attr_drones" value="0"></div>
+                <div class="sheet-table__cell"><button type="roll" value="&{template:rolls} {{title=Drones}} {{subtitle=@{character_name} }} {{roll= [[d20 + @{level}[level] + @{drones}[drones] ]]}}"> </button></div>
+            </div>
+            <div class="sheet-table__skill_row">
+                <div class="sheet-table__cell"><label>Hacking</label></div>
+                <div class="sheet-table__cell"><input type="number" name="attr_hacking" value="0"></div>
+                <div class="sheet-table__cell"><button type="roll" value="&{template:rolls} {{title=Hacking}} {{subtitle=@{character_name} }} {{roll= [[d20 + @{level}[level] + @{hacking}[hacking] ]]}}"> </button></div>
+            </div>
+            <div class="sheet-table__skill_row">
+                <div class="sheet-table__cell"><label>Infiltration</label></div>
+                <div class="sheet-table__cell"><input type="number" name="attr_infiltration" value="0"></div>
+                <div class="sheet-table__cell"><button type="roll" value="&{template:rolls} {{title=Infiltration}} {{subtitle=@{character_name} }} {{roll= [[d20 + @{level}[level] + @{infiltration}[infiltration] ]]}}"> </button></div>
+            </div>
+            <div class="sheet-table__skill_row">
+                <div class="sheet-table__cell"><label>Investigate</label></div>
+                <div class="sheet-table__cell"><input type="number" name="attr_investigate" value="0"></div>
+                <div class="sheet-table__cell"><button type="roll" value="&{template:rolls} {{title=Investigate}} {{subtitle=@{character_name} }} {{roll= [[d20 + @{level}[level] + @{investigate}[investigate] ]]}}"> </button></div>
+            </div>
+            <div class="sheet-table__skill_row">
+                <div class="sheet-table__cell"><label>Sabotage</label></div>
+                <div class="sheet-table__cell"><input type="number" name="attr_sabotage" value="0"></div>
+                <div class="sheet-table__cell"><button type="roll" value="&{template:rolls} {{title=Sabotage}} {{subtitle=@{character_name} }} {{roll= [[d20 + @{level}[level] + @{sabotage}[sabotage] ]]}}"> </button></div>
+            </div>
+            <div class="sheet-table__skill_row">
+                <div class="sheet-table__cell"><label>Surveillance</label></div>
+                <div class="sheet-table__cell"><input type="number" name="attr_surveillance" value="0"></div>
+                <div class="sheet-table__cell"><button type="roll" value="&{template:rolls} {{title=Surveillance}} {{subtitle=@{character_name} }} {{roll= [[d20 + @{level}[level] + @{surveillance}[surveillance] ]]}}"> </button></div>
+            </div>
+            <div class="sheet-table__skill_row">
+                <div class="sheet-table__cell"><label>Telekinetics</label></div>
+                <div class="sheet-table__cell"><input type="number" name="attr_telekinetics" value="0"></div>
+                <div class="sheet-table__cell"><button type="roll" value="&{template:rolls} {{title=Telekinetics}} {{subtitle=@{character_name} }} {{roll= [[d20 + @{level}[level] + @{telekinetics}[telekinetics] ]]}}"> </button></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="universal">
+        <label>Universal Skills</label>
+        <div class="sheet-table">
+            <div class="sheet-table__skill_row">
+                <div class="sheet-table__cell">Name</div>
+                <div class="sheet-table__cell">Modifier</div>
+                <div class="sheet-table__cell">Roll</div>
+            </div>
+            <div class="sheet-table__skill_row">
+                <div class="sheet-table__cell"><label>Drive</label></div>
+                <div class="sheet-table__cell"><input type="number" name="attr_drive" value="5"></div>
+                <div class="sheet-table__cell"><button type="roll" value="&{template:rolls} {{title=Drive}} {{subtitle=@{character_name} }} {{roll= [[d20 + @{level}[level] + @{drive}[drive] ]]}}"> </button></div>
+            </div>
+            <div class="sheet-table__skill_row">
+                <div class="sheet-table__cell"><label>Observation</label></div>
+                <div class="sheet-table__cell"><input type="number" name="attr_observation" value="3"></div>
+                <div class="sheet-table__cell"><button type="roll" value="&{template:rolls} {{title=Observation}} {{subtitle=@{character_name} }} {{roll= [[d20 + @{level}[level] + @{observation}[observation] ]]}}"> </button></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="social">
+        <label>Social Skills</label>
+        <div class="sheet-table">
+            <div class="sheet-table__skill_row">
+                <div class="sheet-table__cell">Name</div>
+                <div class="sheet-table__cell">Modifier</div>
+                <div class="sheet-table__cell">Roll</div>
+            </div>
+            <div class="sheet-table__skill_row">
+                <div class="sheet-table__cell"><label>Appeal</label></div>
+                <div class="sheet-table__cell"><input type="number" name="attr_appeal" value="0"></div>
+                <div class="sheet-table__cell"><button type="roll" value="&{template:rolls} {{title=Diversion}} {{subtitle=@{character_name} }} {{roll= [[d20 + @{level}[level] + @{appeal}[appeal] ]]}}"> </button></div>
+            </div>
+            <div class="sheet-table__skill_row">
+                <div class="sheet-table__cell"><label>Collaborate</label></div>
+                <div class="sheet-table__cell"><input type="number" name="attr_collaborate" value="0"></div>
+                <div class="sheet-table__cell"><button type="roll" value="&{template:rolls} {{title=Collaborate}} {{subtitle=@{character_name} }} {{roll= [[d20 + @{level}[level] + @{collaborate}[collaborate] ]]}}"> </button></div>
+            </div>
+            <div class="sheet-table__skill_row">
+                <div class="sheet-table__cell"><label>Force</label></div>
+                <div class="sheet-table__cell"><input type="number" name="attr_force" value="0"></div>
+                <div class="sheet-table__cell"><button type="roll" value="&{template:rolls} {{title=Force}} {{subtitle=@{character_name} }} {{roll= [[d20 + @{level}[level] + @{force}[force] ]]}}"> </button></div>
+            </div>
+            <div class="sheet-table__skill_row">
+                <div class="sheet-table__cell"><label>Interrogate</label></div>
+                <div class="sheet-table__cell"><input type="number" name="attr_interrogate" value="0"></div>
+                <div class="sheet-table__cell"><button type="roll" value="&{template:rolls} {{title=Interrogate}} {{subtitle=@{character_name} }} {{roll= [[d20 + @{level}[level] + @{interrogate}[interrogate] ]]}}"> </button></div>
+            </div>
+            <div class="sheet-table__skill_row">
+                <div class="sheet-table__cell"><label>Convince</label></div>
+                <div class="sheet-table__cell"><input type="number" name="attr_convince" value="0"></div>
+                <div class="sheet-table__cell"><button type="roll" value="&{template:rolls} {{title=Convince}} {{subtitle=@{character_name} }} {{roll= [[d20 + @{level}[level] + @{convince}[convince] ]]}}"> </button></div>
+            </div>
+            <div class="sheet-table__skill_row">
+                <div class="sheet-table__cell"><label>Smooth-Talk</label></div>
+                <div class="sheet-table__cell"><input type="number" name="attr_smoothtalk" value="0"></div>
+                <div class="sheet-table__cell"><button type="roll" value="&{template:rolls} {{title=Smooth-Talk}} {{subtitle=@{character_name} }} {{roll= [[d20 + @{level}[level] + @{smoothtalk}[smoothtalk] ]]}}"> </button></div>
+            </div>
+            <div class="sheet-table__skill_row">
+                <div class="sheet-table__cell"><label>Deception</label></div>
+                <div class="sheet-table__cell"><input type="number" name="attr_deception" value="0"></div>
+                <div class="sheet-table__cell"><button type="roll" value="&{template:rolls} {{title=Deception}} {{subtitle=@{character_name} }} {{roll= [[d20 + @{level}[level] + @{deception}[deception] ]]}}"> </button></div>
+            </div>
+            <div class="sheet-table__skill_row">
+                <div class="sheet-table__cell"><label>Scrutinize</label></div>
+                <div class="sheet-table__cell"><input type="number" name="attr_scrutinize" value="0"></div>
+                <div class="sheet-table__cell"><button type="roll" value="&{template:rolls} {{title=Scrutinize}} {{subtitle=@{character_name} }} {{roll= [[d20 + @{level}[level] + @{scrutinize}[scrutinize] ]]}}"> </button></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="status">
+        <label>Status</label>
+        <div class="sheet-table">
+
+            <div class="sheet-table__evasion_row">
+                <!-- TODO Cleanup display -->
+                <div class="sheet-table__cell"><label>Armor Evasion Bonus</label></div>
+                <div class="sheet-table__cell"><label></label></div>
+                <div class="sheet-table__cell"><label></label></div>
+
+                <div class="sheet-table__cell"><input type="number" class="sheet-long-number" name="attr_evasion_armor" value="0"></div>
+                <div class="sheet-table__cell"><label></label></div>
+                <div class="sheet-table__cell"><label></label></div>
+
+                <div class="sheet-table__cell"><label>Open Evasion</label></div>
+                <div class="sheet-table__cell"><label>Soft Cover Evasion</label></div>
+                <div class="sheet-table__cell"><label>Hard Cover Evasion</label></div>
+
+                <div class="sheet-table__cell"><input type="number" class="sheet-long-number" name="attr_evasion" value="(@{base_evasion}+@{evasion_armor}+2*@{level})" disabled="true"></div>
+                <div class="sheet-table__cell"><input type="number" class="sheet-long-number" name="attr_evasion_soft_cover" value="(@{base_evasion}+@{evasion_armor}+2*@{level}+2)" disabled="true"></div>
+                <div class="sheet-table__cell"><input type="number" class="sheet-long-number" name="attr_evasion_hard_cover" value="(@{base_evasion}+@{evasion_armor}+2*@{level}+4)" disabled="true"></div>
+
+                <div class="sheet-table__cell"><label></label></div>
+                <div class="sheet-table__cell"><label></label></div>
+                <div class="sheet-table__cell"><label></label></div>
+            </div>
+
+            <div class="sheet-table__hp_row">
+                <div class="sheet-table__cell"><label>HP</label></div>
+                <div class="sheet-table__cell"><label></label></div>
+
+                <div class="sheet-table__cell"><label>Current</label></div>
+                <div class="sheet-table__cell"><label>Max</label></div>
+
+                <div class="sheet-table__cell sheet-hp_box"><input type="number" class="sheet-long-number" name="attr_hp" value="256" min="0"></div>
+                <div class="sheet-table__cell"><input type="number" class="sheet-long-number" name="attr_hp_max" value="(round(256*@{level_scalar}))" disabled="true" min="0"></div>
+
+                <div class="sheet-table__cell"><label>Incoming Dmg</label></div>
+                <div class="sheet-table__cell"><label>HP after</label></div>
+
+                <div class="sheet-table__cell sheet-incoming_damage"><input type="number" class="sheet-long-number" name="attr_incoming_damage" value="0" min="0"></div>
+                <div class="sheet-table__cell"><input type="number" class="sheet-long-number" name="attr_hp_after_incoming_damage" value="@{hp}-@{incoming_damage}" disabled="true" min="0"></div>
+
+                <div class="sheet-table__cell"><label></label></div>
+                <div class="sheet-table__cell"><label></label></div>
+            </div>
+
+            <div class="sheet-table__medkit_row">
+                <div class="sheet-table__cell"><label>Medkit Reserves</label></div>
+                <div class="sheet-table__cell"><label></label></div>
+                <!-- TODO determine how many medkit points each PC gets -->
+
+                <div class="sheet-table__cell"><label>Current</label></div>
+                <div class="sheet-table__cell"><label>Max</label></div>
+
+                <div class="sheet-table__cell"><input type="number" class="sheet-long-number" name="attr_medkit" value="256" min="0"></div>
+                <div class="sheet-table__cell"><input type="number" class="sheet-long-number" name="attr_medkit_max" value="(round(256*@{level_scalar}))" disabled="true" min="0"></div>
+
+                <div class="sheet-table__cell"><label></label></div>
+                <div class="sheet-table__cell"><label></label></div>
+            </div>
+
+            <div class="sheet-table__stun_row">
+                <div class="sheet-table__cell"><label>Stun</label></div>
+                <div class="sheet-table__cell"><label></label></div>
+                <!-- TODO Calculate stun based on character DPT -->
+
+                <div class="sheet-table__cell"><label>Current</label></div>
+                <div class="sheet-table__cell"><label>Threshold</label></div>
+
+                <div class="sheet-table__cell sheet-stun_input"><input type="number" class="sheet-long-number" name="attr_stun" value="0" min="0"></div>
+                <div class="sheet-table__cell"><input type="number" class="sheet-long-number" name="attr_stun_threshold" value="(round(256*@{level_scalar}))" disabled="true" min="0"></div>
+
+                <div class="sheet-table__cell"><label>Incoming Stun</label></div>
+                <div class="sheet-table__cell"><label>Stun after</label></div>
+
+                <div class="sheet-table__cell sheet-incoming_stun"><input type="number" class="sheet-long-number" name="attr_incoming_stun" value="0" min="0"></div>
+                <div class="sheet-table__cell"><input type="number" class="sheet-long-number" name="attr_stun_after_incoming" value="@{stun}+@{incoming_stun}" disabled="true" min="0"></div>
+
+                <div class="sheet-table__cell"><label></label></div>
+                <div class="sheet-table__cell"><label></label></div>
+            </div>
+
+            <div class="sheet-table__adr_row">
+                <div class="sheet-table__cell"><label>Adrenaline</label></div>
+                <div class="sheet-table__cell"><input type="number" class="sheet-long-number" name="attr_adrenaline" value="2" min="0"></div>
+
+                <div class="sheet-table__cell"><label></label></div>
+                <div class="sheet-table__cell"><label></label></div>
+            </div>
+
+            <div class="sheet-table__misc_tracker_row">
+                <div class="sheet-table__cell"><label>Misc. Counters</label></div>
+                <div class="sheet-table__cell"><label></label></div>
+
+                <div class="sheet-table__cell"><label>Name</label></div>
+                <div class="sheet-table__cell"><label>Value</label></div>
+            </div>
+
+            <fieldset class="repeating_status-trackers">
+                <input name="attr_misc_status_tracker_key" type="text">
+                <input name="attr_misc_status_tracker_value" type="number">
+            </fieldset>
+
+            <!-- TODO Stun-->
+            <!-- TODO custom repeating tracker -->
+
+        </div>
+    </section>
+
+    <!-- TODO redo this section? It doesn't save new-lines -->
+    <section class="inventory">
+        <label>Inventory</label>
+        <textarea name="attr_inventory" value=""></textarea>
+    </section>
+
+    <section class="combat">
+        <label>Combat specialization</label>
+         <input name="attr_combatskill" list="weaponList" type="text">
+        <div>
+            <input type="hidden" class="sheet-combat-skill-toggle" name="attr_combatskill"  value=""/>
+            <div class="sheet-combat-skill-unchosen">
+                <label>Choose a combat skill to see your adrenalines.</label>
+                <label>(Double-click the field above for options.)</label>
+            </div>
+            <div class="sheet-pistols">
+                <div class="sheet-table">
+                    <div class="sheet-table__attack_extras_row">
+                        <div class="sheet-table__cell"><label>Extra aim</label></div>
+                        <div class="sheet-table__cell"><input type="number" name="attr_extra_aim" value="0"></div>
+                        <div class="sheet-table__cell"><label>Extra deadliness</label></div>
+                        <div class="sheet-table__cell"><input type="number" name="attr_extra_deadliness" value="0"></div>
+                    </div>
+
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Attack</label></div>
+                        <div class="sheet-table__cell"><button type="roll" value="&{template:rolls} {{title=Basic Attack}} {{subtitle=@{character_name} }} {{roll= [[d20 + 2*@{level}[level] + 4[weapon] + @{extra_aim}[Extra aim] ]]}}"> </button></div>
+                        <div class="sheet-table__cell"><label>Damage</label></div>
+                        <div class="sheet-table__cell"><button type="roll" value="&{template:damage-rolls} {{title=Damage}} {{subtitle=@{character_name} }} {{roll= [[round( (4*(1d6)+16)[weapon] * (1+0.05*@{extra_deadliness})[deadliness] * @{level_scalar}[level] ) ]]}}"> </button></div>
+                    </div>
+
+                    <label>Pistols ADRs // Type I Damage</label>
+
+                    <div class="sheet-table__attack_extras_row">
+                        <div class="sheet-table__cell"><label>Momentum</label></div>
+                        <div class="sheet-table__cell"><input type="number" name="attr_momentum" value="0"></div>
+                    </div>
+
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>+1 on hit, lose all on a miss.</label>
+                        </div>
+                    </div>
+
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Initiate</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: 1 ADR + Action</label>
+                            <label>Can only be used when you have no momentum.</label>
+                            <label>Attack, then gain 2 momentum.</label>
+                        </div>
+                    </div>
+
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Like Clockwork</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: 1 ADR + Action</label>
+                            <label>Attack with +4 aim (static) and +2 deadliness per momentum.</label>
+                        </div>
+                    </div>
+
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Double tap</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: 3 ADR + Action</label>
+                            <label>Attack with +3 deadliness per momentum, then attack with +3 deadliness per momentum. </label>
+                            <label>Note that your momentum will likely change between the 1st and 2nd attacks.</label>
+                        </div>
+                    </div>
+
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Bullet Dance</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: 1 ADR + Action</label>
+                            <label>Gain +4 evasion per momentum until the start of your next turn, then attack.</label>
+                        </div>
+                    </div>
+
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Conclude</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: 3 ADR / Action</label>
+                            <label>Attack with +3 Aim per momentum and +9 deadliness per momentum.</label>
+                            <label>Lose all momentum.</label>
+                        </div>
+                    </div>
+
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Flow of Battle</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: 1 ADR + Reaction</label>
+                            <label>When attacked you’re treated as one level of cover higher (up to hard cover) against that attack and gain 1 momentum.</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sheet-smgs">
+                <div class="sheet-table">
+                    <div class="sheet-table__attack_extras_row">
+                        <div class="sheet-table__cell"><label>Extra aim</label></div>
+                        <div class="sheet-table__cell"><input type="number" name="attr_extra_aim" value="0"></div>
+                        <div class="sheet-table__cell"><label>Extra deadliness</label></div>
+                        <div class="sheet-table__cell"><input type="number" name="attr_extra_deadliness" value="0"></div>
+                    </div>
+
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Basic Attack</label></div>
+                        <div class="sheet-table__cell"><button type="roll" value="&{template:rolls} {{title=Basic Attack}} {{subtitle=@{character_name} }} {{roll= [[d20 + 2*@{level}[level] + 0[weapon] + @{extra_aim}[Extra aim] ]]}}"> </button></div>
+                        <div class="sheet-table__cell"><label>Damage</label></div>
+                        <div class="sheet-table__cell"><button type="roll" value="&{template:damage-rolls} {{title=Damage}} {{subtitle=@{character_name} }} {{roll= [[round( (4*(1d12)+10)[weapon] * (1+0.05*@{extra_deadliness})[deadliness] * @{level_scalar}[level]  ) ]]}}"> </button></div>
+                    </div>
+
+                    <label>SMGs ADRs // Type XII Damage</label>
+
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Tight Bursts</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: 1 ADR + Action</label>
+                            <label>Attack with +6 Aim, +4 Deadliness</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Full Auto</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: 1 ADR + Action</label>
+                            <label>Attack with -2 Aim +12 Deadliness</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Spray and Pray</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: 2 ADR + Action</label>
+                            <label>Attack all enemies in a 2sq burst</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Bullet Storm</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: 1 ADR + Action</label>
+                            <label>Attack, everyone has soft cover from the target’s attacks until the start of the operative’s next turn.</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Empty the Clip</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: 2X ADR + Action</label>
+                            <label>Attack X+1 times. You may split the attacks among multiple targets.</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Keep Firing</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: 2 ADR + Reaction</label>
+                            <label>Whenever you miss an attack, reroll the attack.</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sheet-shotguns">
+                <div class="sheet-table">
+                    <div class="sheet-table__attack_extras_row">
+                        <div class="sheet-table__cell"><label>Extra aim</label></div>
+                        <div class="sheet-table__cell"><input type="number" name="attr_extra_aim" value="0"></div>
+                        <div class="sheet-table__cell"><label>Extra deadliness</label></div>
+                        <div class="sheet-table__cell"><input type="number" name="attr_extra_deadliness" value="0"></div>
+                    </div>
+
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Basic Attack</label></div>
+                        <div class="sheet-table__cell"><button type="roll" value="&{template:rolls} {{title=Basic Attack}} {{subtitle=@{character_name} }} {{roll= [[d20 + 2*@{level}[level] + 2[weapon] + @{extra_aim}[Extra aim] ]]}}"> </button></div>
+                        <div class="sheet-table__cell"><label>Damage</label></div>
+                        <div class="sheet-table__cell"><button type="roll" value="&{template:damage-rolls} {{title=Damage}} {{subtitle=@{character_name} }} {{roll= [[round( (4*(1d4)+10*(1d2)+6)[weapon] * (1+0.05*@{extra_deadliness})[deadliness] * @{level_scalar}[level]  ) ]]}}"> </button></div>
+                    </div>
+
+                    <label>Shotguns ADRs // Type V Damage</label>
+
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Pin</label>
+                            <label>Whenever you approach or attack an enemy you can place a pin on them as a free action, keeping them in your sights and enabling some of your adrenalines.</label>
+                        </div>
+                    </div>
+
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Covered Approach</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: 1 ADR + Action</label>
+                            <label>Can only be used if the operative approached this turn. </label>
+                            <label>Attack and gain soft cover from all attacks until the start of your next turn.</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Flush Out</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: 1 ADR + Action</label>
+                            <label>Attack a target, and then force them to move 1sq in a direction of their choice or take 3 * Average Weapon Damage.</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Flak Round</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: 1 ADR + Action</label>
+                            <label>Attack with +7 aim and ignore the target’s soft cover or hard cover.</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Explosive Shell</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: 2 ADR + Action</label>
+                            <label>Attack with +5 aim, +10 deadliness, if you hit then move your target up to 3sq away from you in any direction.</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Hair-Trigger</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: 1 ADR + Action</label>
+                            <label>Designate 3 squares in your line-of-sight. </label>
+                            <label>The first time an enemy moves into that square you may attack them if the square is in your line-of-sight as a reaction. You cannot trigger another designated square until the beginning of your next turn.</label>
+                            <label>This effect lasts until the end of combat and can be triggered on forced movement.</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Lockdown</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: 2 ADR + Reaction</label>
+                            <label>If your pinned target voluntarily moves then you can attack them.</label>
+                            <label>You can only use trigger this ability once per turn.</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sheet-assault-rifles">
+                <div class="sheet-table">
+                    <div class="sheet-table__attack_extras_row">
+                        <div class="sheet-table__cell"><label>Extra aim</label></div>
+                        <div class="sheet-table__cell"><input type="number" name="attr_extra_aim" value="0"></div>
+                        <div class="sheet-table__cell"><label>Extra deadliness</label></div>
+                        <div class="sheet-table__cell"><input type="number" name="attr_extra_deadliness" value="0"></div>
+                    </div>
+
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Basic Attack</label></div>
+                        <div class="sheet-table__cell"><button type="roll" value="&{template:rolls} {{title=Basic Attack}} {{subtitle=@{character_name} }} {{roll= [[d20 + 2*@{level}[level] + 2[weapon] + @{extra_aim}[Extra aim] ]]}}"> </button></div>
+                        <div class="sheet-table__cell"><label>Damage</label></div>
+                        <div class="sheet-table__cell"><button type="roll" value="&{template:damage-rolls} {{title=Damage}} {{subtitle=@{character_name} }} {{roll= [[round( (4*(1d3)+10*(1d2)+10)[weapon] * (1+0.05*@{extra_deadliness})[deadliness] * @{level_scalar}[level]  ) ]]}}"> </button></div>
+                    </div>
+
+                    <label>Assault Rifles ADRs // Type II Damage</label>
+
+                    <div class="sheet-table__attack_extras_row">
+                        <div class="sheet-table__cell"><label>Tracer Rounds</label></div>
+                        <div class="sheet-table__cell"><input type="number" name="attr_tracer_rounds" value="0"></div>
+                    </div>
+                    <div class="sheet-table__attack_extras_row">
+                        <div class="sheet-table__cell"><label>AP Rounds</label></div>
+                        <div class="sheet-table__cell"><input type="number" name="attr_ap_rounds" value="0"></div>
+                    </div>
+
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Burst Fire</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: 1 ADR + Action</label>
+                            <label>Attack with +3 aim, +7 deadliness</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Tracer Rounds</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: 1 ADR + Action</label>
+                            <label>Gain 6 tracer rounds.</label>
+                            <label>Whenever an ally attacks you may expend a tracer round as a free action to give that attack +5 aim.</label>
+                            <label>You cannot expend more than 1 tracer round per attack.</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>AP Rounds</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: 1 ADR + Action</label>
+                            <label>Gain 3 AP rounds.</label>
+                            <label>Whenever an ally attacks you may expend an AP round as a free action to give that attack +10 deadliness.</label>
+                            <label>You cannot expend more than 1 AP round per attack.</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Double Time</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: 1 ADR + Free Action</label>
+                            <label>You or an ally you can communicate with can immediately take a move action.</label>
+                            <label>You can only use Double Time once per round.</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Coordinated Strike</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: 2X ADR + Action</label>
+                            <label>Distribute X attacks among you and your ally you can communicate with. Each of those attacks against flanked targets get +10 deadliness.</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Covering Fire</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: 1 ADR + Reaction</label>
+                            <label>If an enemy would hit you or an ally in your line-of-sight with an attack, you can force a re-roll on the attack.</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sheet-dmrs">
+                <div class="sheet-table">
+                    <div class="sheet-table__attack_extras_row">
+                        <div class="sheet-table__cell"><label>Extra aim</label></div>
+                        <div class="sheet-table__cell"><input type="number" name="attr_extra_aim" value="0"></div>
+                        <div class="sheet-table__cell"><label>Extra deadliness</label></div>
+                        <div class="sheet-table__cell"><input type="number" name="attr_extra_deadliness" value="0"></div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Basic Attack</label></div>
+                        <div class="sheet-table__cell"><button type="roll" value="&{template:rolls} {{title=Basic Attack}} {{subtitle=@{character_name} }} {{roll= [[d20 + 2*@{level}[level] + 4[weapon] + @{extra_aim}[Extra aim] ]]}}"> </button></div>
+                        <div class="sheet-table__cell"><label>Damage</label></div>
+                        <div class="sheet-table__cell"><button type="roll" value="&{template:damage-rolls} {{title=Damage}} {{subtitle=@{character_name} }} {{roll= [[round( (4*(1d10)+8)[weapon] * (1+0.05*@{extra_deadliness})[deadliness] * @{level_scalar}[level]  ) ]]}}"> </button></div>
+                    </div>
+
+                    <label>DMRs ADRs // Type VII Damage</label>
+
+                    <div class="sheet-table__attack_extras_row">
+                        <div class="sheet-table__cell"><label>Steady Breath</label></div>
+                        <div class="sheet-table__cell"><input type="number" name="attr_steady_breath" value="0"></div>
+                    </div>
+
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Pinpoint Shot</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: 1 ADR + Action</label>
+                            <label>Attack with +7 deadliness and ignore your target's soft cover or hard cover.</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Calibrating Shot</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: 1 ADR + Action</label>
+                            <label>Attack with +6 aim, then gain 1 mark on your target.</label>
+                            <label>You may expend a mark on a target as a reaction to allow you or an ally to reroll an attack on the target if they miss.</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Steady Breath</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: 1 ADR + Action</label>
+                            <label>Gain 1 steady breath.</label>
+                            <label>You can expend a steady breath as a free action to make one of your attacks deal an additional Average Weapon Damage and you may reroll the attack if you miss.</label>
+                            <label>If you take a move action you lose all steady breath.</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Line Em' Up</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: 2 ADR + Action</label>
+                            <label>Attack the first two targets in a line from your square.</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Headshot</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: 5 ADR + Action</label>
+                            <label>Attack with +10 aim, if you hit you deal an additional 2 * Average Weapon Damage.</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Keep Them at Bay</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: 2 ADR + Reaction</label>
+                            <label>Whenever an enemy voluntarily approaches you then you may attack them.</label>
+                            <label>You may use this reaction once per enemy per turn.</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sheet-lmgs">
+                <div class="sheet-table">
+                    <div class="sheet-table__attack_extras_row">
+                        <div class="sheet-table__cell"><label>Extra aim</label></div>
+                        <div class="sheet-table__cell"><input type="number" name="attr_extra_aim" value="0"></div>
+                        <div class="sheet-table__cell"><label>Extra deadliness</label></div>
+                        <div class="sheet-table__cell"><input type="number" name="attr_extra_deadliness" value="0"></div>
+                    </div>
+
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Basic Attack</label></div>
+                        <div class="sheet-table__cell"><button type="roll" value="&{template:rolls} {{title=Basic Attack}} {{subtitle=@{character_name} }} {{roll= [[d20 + 2*@{level}[level] + 0[weapon] + @{extra_aim}[Extra aim] ]]}}"> </button></div>
+                        <div class="sheet-table__cell"><label>Damage</label></div>
+                        <div class="sheet-table__cell"><button type="roll" value="&{template:damage-rolls} {{title=Damage}} {{subtitle=@{character_name} }} {{roll= [[round( (4*(1d10)+14)[weapon] * (1+0.05*@{extra_deadliness})[deadliness] * @{level_scalar}[level]  ) ]]}}"> </button></div>
+                    </div>
+
+                    <label>LMGs ADRs // Type IX Damage</label>
+
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 1</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: 1 ADR + Action</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 2</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 3</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 4</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 5</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 6</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sheet-light-kinetic-weapons">
+                <div class="sheet-table">
+                    <div class="sheet-table__attack_extras_row">
+                        <div class="sheet-table__cell"><label>Extra aim</label></div>
+                        <div class="sheet-table__cell"><input type="number" name="attr_extra_aim" value="0"></div>
+                        <div class="sheet-table__cell"><label>Extra deadliness</label></div>
+                        <div class="sheet-table__cell"><input type="number" name="attr_extra_deadliness" value="0"></div>
+                    </div>
+
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Basic Attack</label></div>
+                        <div class="sheet-table__cell"><button type="roll" value="&{template:rolls} {{title=Basic Attack}} {{subtitle=@{character_name} }} {{roll= [[d20 + 2*@{level}[level] + 4[weapon] + @{extra_aim}[Extra aim] ]]}}"> </button></div>
+                        <div class="sheet-table__cell"><label>Damage</label></div>
+                        <div class="sheet-table__cell"><button type="roll" value="&{template:damage-rolls} {{title=Damage}} {{subtitle=@{character_name} }} {{roll= [[round( (4*(1d8)+12)[weapon] * (1+0.05*@{extra_deadliness})[deadliness] * @{level_scalar}[level]  ) ]]}}"> </button></div>
+                    </div>
+
+                    <label>Light Kinetic Weapons ADRs // Type IV Damage</label>
+
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 1</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 2</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 3</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 4</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 5</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 6</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sheet-heavy-kinetic-weapons">
+                <div class="sheet-table">
+                    <div class="sheet-table__attack_extras_row">
+                        <div class="sheet-table__cell"><label>Extra aim</label></div>
+                        <div class="sheet-table__cell"><input type="number" name="attr_extra_aim" value="0"></div>
+                        <div class="sheet-table__cell"><label>Extra deadliness</label></div>
+                        <div class="sheet-table__cell"><input type="number" name="attr_extra_deadliness" value="0"></div>
+                    </div>
+
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Basic Attack</label></div>
+                        <div class="sheet-table__cell"><button type="roll" value="&{template:rolls} {{title=Basic Attack}} {{subtitle=@{character_name} }} {{roll= [[d20 + 2*@{level}[level] + 0[weapon] + @{extra_aim}[Extra aim] ]]}}"> </button></div>
+                        <div class="sheet-table__cell"><label>Damage</label></div>
+                        <div class="sheet-table__cell"><button type="roll" value="&{template:damage-rolls} {{title=Damage}} {{subtitle=@{character_name} }} {{roll= [[round( (4*(1d8)+18)[weapon] * (1+0.05*@{extra_deadliness})[deadliness] * @{level_scalar}[level]  ) ]]}}"> </button></div>
+                    </div>
+
+                    <label>Heavy Kinetic Weapons ADRs // Type VI Damage</label>
+
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 1</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 2</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 3</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 4</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 5</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 6</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sheet-flamethrowers">
+                <div class="sheet-table">
+                    <div class="sheet-table__attack_extras_row">
+                        <div class="sheet-table__cell"><label>Extra aim</label></div>
+                        <div class="sheet-table__cell"><input type="number" name="attr_extra_aim" value="0"></div>
+                        <div class="sheet-table__cell"><label>Extra deadliness</label></div>
+                        <div class="sheet-table__cell"><input type="number" name="attr_extra_deadliness" value="0"></div>
+                    </div>
+
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Basic Attack</label></div>
+                        <div class="sheet-table__cell"><button type="roll" value="&{template:rolls} {{title=Basic Attack}} {{subtitle=@{character_name} }} {{roll= [[d20 + 2*@{level}[level] + 2[weapon] + @{extra_aim}[Extra aim] ]]}}"> </button></div>
+                        <div class="sheet-table__cell"><label>Damage</label></div>
+                        <div class="sheet-table__cell"><button type="roll" value="&{template:damage-rolls} {{title=Damage}} {{subtitle=@{character_name} }} {{roll= [[round( (4*(1d6)+10*(1d2)-2)[weapon] * (1+0.05*@{extra_deadliness})[deadliness] * @{level_scalar}[level]  ) ]]}}"> </button></div>
+                    </div>
+
+                    <label>Flamethrowers ADRs // Type XI Damage</label>
+
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 1</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 2</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 3</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 4</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 5</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 6</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sheet-charge-rifles">
+                <div class="sheet-table">
+                    <div class="sheet-table__attack_extras_row">
+                        <div class="sheet-table__cell"><label>Extra aim</label></div>
+                        <div class="sheet-table__cell"><input type="number" name="attr_extra_aim" value="0"></div>
+                        <div class="sheet-table__cell"><label>Extra deadliness</label></div>
+                        <div class="sheet-table__cell"><input type="number" name="attr_extra_deadliness" value="0"></div>
+                    </div>
+
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Basic Attack</label></div>
+                        <div class="sheet-table__cell"><button type="roll" value="&{template:rolls} {{title=Basic Attack}} {{subtitle=@{character_name} }} {{roll= [[d20 + 2*@{level}[level] + 0[weapon] + @{extra_aim}[Extra aim] ]]}}"> </button></div>
+                        <div class="sheet-table__cell"><label>Damage</label></div>
+                        <div class="sheet-table__cell"><button type="roll" value="&{template:damage-rolls} {{title=Damage}} {{subtitle=@{character_name} }} {{roll= [[round( (4*(1d6)+22)[weapon] * (1+0.05*@{extra_deadliness})[deadliness] * @{level_scalar}[level]  ) ]]}}"> </button></div>
+                    </div>
+
+                    <label>Charge Rifles ADRs // Type III Damage</label>
+
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 1</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 2</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 3</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 4</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 5</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 6</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sheet-cryo-syphons">
+                <div class="sheet-table">
+                    <div class="sheet-table__attack_extras_row">
+                        <div class="sheet-table__cell"><label>Extra aim</label></div>
+                        <div class="sheet-table__cell"><input type="number" name="attr_extra_aim" value="0"></div>
+                        <div class="sheet-table__cell"><label>Extra deadliness</label></div>
+                        <div class="sheet-table__cell"><input type="number" name="attr_extra_deadliness" value="0"></div>
+                    </div>
+
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Basic Attack</label></div>
+                        <div class="sheet-table__cell"><button type="roll" value="&{template:rolls} {{title=Basic Attack}} {{subtitle=@{character_name} }} {{roll= [[d20 + 2*@{level}[level] + 4[weapon] + @{extra_aim}[Extra aim] ]]}}"> </button></div>
+                        <div class="sheet-table__cell"><label>Damage</label></div>
+                        <div class="sheet-table__cell"><button type="roll" value="&{template:damage-rolls} {{title=Damage}} {{subtitle=@{character_name} }} {{roll= [[round( (4*(1d10)+8)[weapon] * (1+0.05*@{extra_deadliness})[deadliness] * @{level_scalar}[level]  ) ]]}}"> </button></div>
+                    </div>
+
+                    <label>Cryo-Syphons ADRs // Type VII Damage</label>
+
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 1</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 2</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 3</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 4</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 5</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 6</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sheet-gauss-rifles">
+                <div class="sheet-table">
+                    <div class="sheet-table__attack_extras_row">
+                        <div class="sheet-table__cell"><label>Extra aim</label></div>
+                        <div class="sheet-table__cell"><input type="number" name="attr_extra_aim" value="0"></div>
+                        <div class="sheet-table__cell"><label>Extra deadliness</label></div>
+                        <div class="sheet-table__cell"><input type="number" name="attr_extra_deadliness" value="0"></div>
+                    </div>
+
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Basic Attack</label></div>
+                        <div class="sheet-table__cell"><button type="roll" value="&{template:rolls} {{title=Basic Attack}} {{subtitle=@{character_name} }} {{roll= [[d20 + 2*@{level}[level] + 2[weapon] + @{extra_aim}[Extra aim] ]]}}"> </button></div>
+                        <div class="sheet-table__cell"><label>Damage</label></div>
+                        <div class="sheet-table__cell"><button type="roll" value="&{template:damage-rolls} {{title=Damage}} {{subtitle=@{character_name} }} {{roll= [[round( (4*(1d5)+10*(1d2)+2)[weapon] * (1+0.05*@{extra_deadliness})[deadliness] * @{level_scalar}[level]  ) ]]}}"> </button></div>
+                    </div>
+
+                    <label>Gauss Rifles ADRs // Type VIII Damage</label>
+
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 1</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 2</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 3</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 4</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 5</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 6</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sheet-scourges">
+                <div class="sheet-table">
+                    <div class="sheet-table__attack_extras_row">
+                        <div class="sheet-table__cell"><label>Extra aim</label></div>
+                        <div class="sheet-table__cell"><input type="number" name="attr_extra_aim" value="0"></div>
+                        <div class="sheet-table__cell"><label>Extra deadliness</label></div>
+                        <div class="sheet-table__cell"><input type="number" name="attr_extra_deadliness" value="0"></div>
+                    </div>
+
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>Basic Attack</label></div>
+                        <div class="sheet-table__cell"><button type="roll" value="&{template:rolls} {{title=Basic Attack}} {{subtitle=@{character_name} }} {{roll= [[d20 + 2*@{level}[level] + 4[weapon] + @{extra_aim}[Extra aim] ]]}}"> </button></div>
+                        <div class="sheet-table__cell"><label>Damage</label></div>
+                        <div class="sheet-table__cell"><button type="roll" value="&{template:damage-rolls} {{title=Damage}} {{subtitle=@{character_name} }} {{roll= [[round( (4*(1d12)+4)[weapon] * (1+0.05*@{extra_deadliness})[deadliness] * @{level_scalar}[level]  ) ]]}}"> </button></div>
+                    </div>
+
+                    <label>Scourges ADRs // Type X Damage</label>
+
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 1</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 2</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 3</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 4</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 5</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                    <div class="sheet-table__attack_row">
+                        <div class="sheet-table__cell"><label>ADR 6</label></div>
+                    </div>
+                    <div class="sheet-table__adrenaline_text_row">
+                        <div class="sheet-table__cell">
+                            <label>Cost: xx</label>
+                            <label>xx</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <section class="mods">
+        <label>Action mods</label>
+        <div/>
+        <label>Movement mods</label>
+        <div/>
+        <label>Field mods</label>
+        <div/>
+    </section>
+
+    <!--
+    Example code:
+
+    <label>HP: <input type="number" name="attr_hp" value="20"> / <input type="number" name="attr_hp_max" value="20"></label>
+
+    <section class="skill f-col nowrap">
+        <h3>Skills</h3>
+        <div class="f-col nowrap">
+            <label>Initiative </label>
+            <div class="f-row nowrap">
+                <input type="number" name="attr_init" value="0">
+                <button type="roll" name="roll_init" value="&{template:rolls} {{title=Initiative}} {{subtitle=@{character_name} }} {{roll= [[d20 + @{level}[level] +(@{init}[init]) &{tracker}]]}}"> </button>
+            </div>
+        </div>
+
+    </section>
+
+    <section class="power f-col">
+        <h3>Powers</h3>
+
+    </section>
+
+ -->
+</main>
+
+<!-- Datalists & thing that don't show directly on sheet -->
+
+<datalist id="weaponList">
+    <option value="Pistols">Pistols</option>
+    <option value="SMGs">SMGs</option>
+    <option value="Shotguns">Shotguns</option>
+    <option value="Assault Rifles">Assault Rifles</option>
+    <option value="DMRs">DMRs</option>
+    <option value="LMGs">LMGs</option>
+    <option value="Light Kinetic Weapons">Light Kinetic Weapons</option>
+    <option value="Heavy Kinetic Weapons">Heavy Kinetic Weapons</option>
+    <option value="Flamethrowers">Flamethrowers</option>
+    <option value="Charge Rifles">Charge Rifles</option>
+    <option value="Cryo-Syphons">Cryo-Syphons</option>
+    <option value="Gauss Rifles">Gauss Rifles</option>
+    <option value="Scourges">Scourges</option>
+</datalist>
+
+<!-- Roll templates -->
+
+<rolltemplate class="sheet-rolltemplate-rolls">
+    <div class="sheet-container">
+        <div class="sheet-header">
+            {{#title}}<div class="sheet-title">{{title}}</div>{{/title}}
+            {{#name}}<div class="sheet-name">{{name}}</div>{{/name}}
+            {{#subtitle}}<div class="sheet-subtitle">{{subtitle}}</div>{{/subtitle}}
+        </div>
+        <div class="sheet-content">
+            {{#allprops() title name subtitle desc}}
+            <div class="sheet-key">{{key}}</div>
+            <div class="sheet-value">{{value}}</div>
+            {{/allprops() title name subtitle desc}}
+            {{#desc}}<div class="sheet-desc">{{desc}}</div>{{/desc}}
+        </div>
+    </div>
+</rolltemplate>
+
+
+<rolltemplate class="sheet-rolltemplate-damage-rolls">
+    <div class="sheet-container">
+        <div class="sheet-header">
+            {{#title}}<div class="sheet-title">{{title}}</div>{{/title}}
+            {{#name}}<div class="sheet-name">{{name}}</div>{{/name}}
+            {{#subtitle}}<div class="sheet-subtitle">{{subtitle}}</div>{{/subtitle}}
+        </div>
+        <div class="sheet-content">
+            {{#roll}}
+            <div class="sheet-key">Roll</div>
+            <div class="sheet-value">{{roll}}</div>
+            {{/roll}}
+            {{#desc}}<div class="sheet-desc">{{desc}}</div>{{/desc}}
+        </div>
+    </div>
+</rolltemplate>
