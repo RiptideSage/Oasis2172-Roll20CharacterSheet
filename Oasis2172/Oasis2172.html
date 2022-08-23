@@ -6,7 +6,9 @@
     <input type="hidden" disabled="true" name="attr_level_scalar" value="(@{scalar_constant}**(@{level}-1))"/>
 
     <input type="hidden" disabled="true" name="attr_base_evasion" value="10"/>
-
+    <input type="hidden" disabled="true" name="attr_average_weapon_damage_1" value="(round(30*@{level_scalar}))"/>
+    <input type="hidden" disabled="true" name="attr_average_weapon_damage_2" value="(round(33*@{level_scalar}))"/>
+    <input type="hidden" disabled="true" name="attr_average_weapon_damage_3" value="(round(36*@{level_scalar}))"/>
 
     <!--
     Damage types
@@ -270,10 +272,6 @@
                 <input name="attr_misc_status_tracker_key" type="text">
                 <input name="attr_misc_status_tracker_value" type="number">
             </fieldset>
-
-            <!-- TODO Stun-->
-            <!-- TODO custom repeating tracker -->
-
         </div>
     </section>
 
@@ -309,6 +307,10 @@
                     </div>
 
                     <label>Pistols ADRs // Type I Damage</label>
+                    <div class="sheet-table__attack_extras_row">
+                        <div class="sheet-table__cell"><label>Average Weapon Damage</label></div>
+                        <div class="sheet-table__cell"><input type="number" class="sheet-long-number" name="attr_average_weapon_damage_pistols" value="(@{average_weapon_damage_1})" disabled="true"></div>
+                    </div>
 
                     <div class="sheet-table__attack_extras_row">
                         <div class="sheet-table__cell"><label>Momentum</label></div>
@@ -402,6 +404,10 @@
                     </div>
 
                     <label>SMGs ADRs // Type XII Damage</label>
+                    <div class="sheet-table__attack_extras_row">
+                        <div class="sheet-table__cell"><label>Average Weapon Damage</label></div>
+                        <div class="sheet-table__cell"><input type="number" class="sheet-long-number" name="attr_average_weapon_damage_smgs" value="(@{average_weapon_damage_3})" disabled="true"></div>
+                    </div>
 
                     <div class="sheet-table__attack_row">
                         <div class="sheet-table__cell"><label>Tight Bursts</label></div>
@@ -476,6 +482,10 @@
                     </div>
 
                     <label>Shotguns ADRs // Type V Damage</label>
+                    <div class="sheet-table__attack_extras_row">
+                        <div class="sheet-table__cell"><label>Average Weapon Damage</label></div>
+                        <div class="sheet-table__cell"><input type="number" class="sheet-long-number" name="attr_average_weapon_damage_shotguns" value="(@{average_weapon_damage_2})" disabled="true"></div>
+                    </div>
 
                     <div class="sheet-table__adrenaline_text_row">
                         <div class="sheet-table__cell">
@@ -561,6 +571,10 @@
                     </div>
 
                     <label>Assault Rifles ADRs // Type II Damage</label>
+                    <div class="sheet-table__attack_extras_row">
+                        <div class="sheet-table__cell"><label>Average Weapon Damage</label></div>
+                        <div class="sheet-table__cell"><input type="number" class="sheet-long-number" name="attr_average_weapon_damage_assault_rifles" value="(@{average_weapon_damage_2})" disabled="true"></div>
+                    </div>
 
                     <div class="sheet-table__attack_extras_row">
                         <div class="sheet-table__cell"><label>Tracer Rounds</label></div>
@@ -648,6 +662,10 @@
                     </div>
 
                     <label>DMRs ADRs // Type VII Damage</label>
+                    <div class="sheet-table__attack_extras_row">
+                        <div class="sheet-table__cell"><label>Average Weapon Damage</label></div>
+                        <div class="sheet-table__cell"><input type="number" class="sheet-long-number" name="attr_average_weapon_damage_dmrs" value="(@{average_weapon_damage_1})" disabled="true"></div>
+                    </div>
 
                     <div class="sheet-table__attack_extras_row">
                         <div class="sheet-table__cell"><label>Steady Breath</label></div>
@@ -731,6 +749,10 @@
                     </div>
 
                     <label>LMGs ADRs // Type IX Damage</label>
+                    <div class="sheet-table__attack_extras_row">
+                        <div class="sheet-table__cell"><label>Average Weapon Damage</label></div>
+                        <div class="sheet-table__cell"><input type="number" class="sheet-long-number" name="attr_average_weapon_damage_lmgs" value="(@{average_weapon_damage_3})" disabled="true"></div>
+                    </div>
 
                     <div class="sheet-table__attack_row">
                         <div class="sheet-table__cell"><label>Suppressing Fire</label></div>
@@ -807,6 +829,10 @@
                     </div>
 
                     <label>Light Kinetic Weapons ADRs // Type IV Damage</label>
+                    <div class="sheet-table__attack_extras_row">
+                        <div class="sheet-table__cell"><label>Average Weapon Damage</label></div>
+                        <div class="sheet-table__cell"><input type="number" class="sheet-long-number" name="attr_average_weapon_damage_light_kinetic_weapons" value="(@{average_weapon_damage_1})" disabled="true"></div>
+                    </div>
 
                     <div class="sheet-table__attack_row">
                         <div class="sheet-table__cell"><label>Duck and Weave</label></div>
@@ -882,6 +908,10 @@
                     </div>
 
                     <label>Heavy Kinetic Weapons ADRs // Type VI Damage</label>
+                    <div class="sheet-table__attack_extras_row">
+                        <div class="sheet-table__cell"><label>Average Weapon Damage</label></div>
+                        <div class="sheet-table__cell"><input type="number" class="sheet-long-number" name="attr_average_weapon_damage_heavy_kinetic_weapons" value="(@{average_weapon_damage_3})" disabled="true"></div>
+                    </div>
 
                     <div class="sheet-table__attack_extras_row">
                         <div class="sheet-table__cell"><label>Rage Counter</label></div>
@@ -966,6 +996,10 @@
                     </div>
 
                     <label>Flamethrowers ADRs // Type XI Damage</label>
+                    <div class="sheet-table__attack_extras_row">
+                        <div class="sheet-table__cell"><label>Average Weapon Damage</label></div>
+                        <div class="sheet-table__cell"><input type="number" class="sheet-long-number" name="attr_average_weapon_damage_flamethrowers" value="(@{average_weapon_damage_2})" disabled="true"></div>
+                    </div>
 
                     <div class="sheet-table__attack_extras_row">
                         <div class="sheet-table__cell"><label>Inferno Counter</label></div>
@@ -1052,6 +1086,10 @@
                     </div>
 
                     <label>Charge Rifles ADRs // Type III Damage</label>
+                    <div class="sheet-table__attack_extras_row">
+                        <div class="sheet-table__cell"><label>Average Weapon Damage</label></div>
+                        <div class="sheet-table__cell"><input type="number" class="sheet-long-number" name="attr_average_weapon_damage_charge_rifles" value="(@{average_weapon_damage_3})" disabled="true"></div>
+                    </div>
 
                     <div class="sheet-table__attack_extras_row">
                         <div class="sheet-table__cell"><label>Amp Counter</label></div>
@@ -1147,6 +1185,10 @@
                     </div>
 
                     <label>Cryo-Syphons ADRs // Type VII Damage</label>
+                    <div class="sheet-table__attack_extras_row">
+                        <div class="sheet-table__cell"><label>Average Weapon Damage</label></div>
+                        <div class="sheet-table__cell"><input type="number" class="sheet-long-number" name="attr_average_weapon_damage_cryo_syphons" value="(@{average_weapon_damage_1})" disabled="true"></div>
+                    </div>
 
                     <div class="sheet-table__adrenaline_text_row">
                         <div class="sheet-table__cell">
@@ -1239,6 +1281,10 @@
                     </div>
 
                     <label>Gauss Rifles ADRs // Type VIII Damage</label>
+                    <div class="sheet-table__attack_extras_row">
+                        <div class="sheet-table__cell"><label>Average Weapon Damage</label></div>
+                        <div class="sheet-table__cell"><input type="number" class="sheet-long-number" name="attr_average_weapon_damage_gauss_rifles" value="(@{average_weapon_damage_2})" disabled="true"></div>
+                    </div>
 
                     <div class="sheet-table__attack_extras_row">
                         <div class="sheet-table__cell"><label>Charge Counter</label></div>
@@ -1329,6 +1375,10 @@
                     </div>
 
                     <label>Scourges ADRs // Type X Damage</label>
+                    <div class="sheet-table__attack_extras_row">
+                        <div class="sheet-table__cell"><label>Average Weapon Damage</label></div>
+                        <div class="sheet-table__cell"><input type="number" class="sheet-long-number" name="attr_average_weapon_damage_scourges" value="(@{average_weapon_damage_1})" disabled="true"></div>
+                    </div>
 
                     <div class="sheet-table__attack_extras_row">
                         <div class="sheet-table__cell"><label>Diffusion Counter</label></div>
